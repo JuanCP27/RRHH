@@ -21,7 +21,7 @@ class CreateRegistroAsistenciaTable extends Migration
             $table->time('hora_salida')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_empleado')->references('id_empleado')->on('empleados');
+            $table->foreign('id_empleado')->references('id')->on('empleados');
         });
     }
 

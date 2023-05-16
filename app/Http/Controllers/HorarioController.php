@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empleado;
 use App\Models\Horario;
+use App\Http\Requests\HoraEmpleadoRequest;
 use Illuminate\Http\Request;
+
 
 class HorarioController extends Controller
 {
@@ -25,6 +28,7 @@ class HorarioController extends Controller
      */
     public function create()
     {
+
         return view('horarios.create');
         //$diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
         //return view('horarios.create', compact('diasSemana'));
@@ -39,24 +43,22 @@ class HorarioController extends Controller
      */
 
 
-    public function store(Request $request)
+    public function store(HoraEmpleadoRequest $request)
     {
         // Validar los datos del formulario
-        $request->validate([
-            'dia_semana' => 'required',
-            'hora_entrada' => 'required',
-            'hora_salida' => 'required',
-        ]);
+        $request->validated();
 
         // Crear un nuevo horario
+
         $horario = new Horario();
-        $horario->dia_semana = $request->input('dia_semana');
-        $horario->hora_entrada = $request->input('hora_entrada');
-        $horario->hora_salida = $request->input('hora_salida');
+
+        $horario->dia_semana = $request->dia_semana;
+        $horario->hora_entrada = $request->hora_entrada;
+        $horario->hora_salida = $request->hora_salida;
         $horario->save();
 
         // Redireccionar a la página de detalles del horario creado
-        return redirect()->route('horarios.show', $horario->id_horario);
+        return redirect()->route('horarios.index');
     }
 
 
@@ -66,10 +68,9 @@ class HorarioController extends Controller
      * @param  \App\Models\Horario  $horario
      * @return \Illuminate\Http\Response
      */
-    public function show(Horario $id)
+    public function show(Horario $horario)
     {
         //
-        $horario = Horario::findOrFail($id);
         return view('horarios.show', compact('horario'));
     }
 
@@ -81,15 +82,12 @@ class HorarioController extends Controller
      */
 
 
-    public function edit($id)
+    public function edit(Horario $horario)
     {
-        $horario = Horario::find($id);
-
         if (!$horario) {
             // Manejo del caso si no se encuentra el horario con el ID especificado
             return redirect()->route('horarios.index')->with('error', 'No se encontró el horario');
         }
-
         return view('horarios.edit', compact('horario'));
     }
 
@@ -101,23 +99,14 @@ class HorarioController extends Controller
      * @param  \App\Models\Horario  $horario
      * @return \Illuminate\Http\Response
      */
-  
-    public function update(Request $request, Horario $id)
+
+    public function update(Request $request, Horario $horario)
     {
         // Validar los datos del formulario
-        $request->validate([
-            'dia_semana' => 'required',
-            'hora_entrada' => 'required',
-            'hora_salida' => 'required',
-        ]);
 
         // Buscar el horario a actualizar
-        $horario = Horario::find($id);
 
         // Verificar si se encontró el horario
-        if (!$horario) {
-            return redirect()->back()->with('error', 'El horario no existe.');
-        }
 
         // Actualizar los datos del horario
         $horario->dia_semana = $request->input('dia_semana');
@@ -126,7 +115,8 @@ class HorarioController extends Controller
         $horario->save();
 
         // Redireccionar a la página de detalles del horario actualizado
-        return redirect()->route('horarios.show', $horario->id_horario)->with('success', 'Horario actualizado correctamente.');
+        return redirect()->route('horarios.index')->with('success', 'Horario actualizado exitosamente.');
+        //return redirect()->route('horarios.show', $horario->id)->with('success', 'Horario actualizado correctamente.');
     }
 
 
@@ -136,16 +126,16 @@ class HorarioController extends Controller
      * @param  \App\Models\Horario  $horario
      * @return \Illuminate\Http\Response
      */
- 
+
     public function destroy(Request $request, $id)
-{
-    // Buscar el horario por su ID
-    $horario = Horario::findOrFail($id);
+    {
+        // Buscar el horario por su ID
+        $horario = Horario::findOrFail($id);
 
-    // Eliminar el horario
-    $horario->delete();
+        // Eliminar el horario
+        $horario->delete();
 
-    // Redireccionar a la lista de horarios con un mensaje de éxito
-    return redirect()->route('horarios.index')->with('success', 'El horario ha sido eliminado correctamente.');
-}
+        // Redireccionar a la lista de horarios con un mensaje de éxito
+        return redirect()->route('horarios.index')->with('success', 'El horario ha sido eliminado correctamente.');
+    }
 }

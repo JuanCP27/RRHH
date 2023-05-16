@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Horario extends Model
 {
     use  HasFactory;
-    protected $primaryKey = 'id_horario';
-
+    protected $table = 'horarios';
+    
     public function empleado()
     {
-        return $this->belongsTo(Empleado::class, 'id_empleado');
+        return $this->belongsToMany(Empleado::class, 'empleado_horario');
     }
 
     // Resto de relaciones y métodos relevantes

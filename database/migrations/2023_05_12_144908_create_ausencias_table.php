@@ -14,13 +14,13 @@ class CreateAusenciasTable extends Migration
     public function up()
     {
         Schema::create('ausencias', function (Blueprint $table) {
-            $table->increments('id_ausencia');
+            $table->increments('id');
             $table->unsignedInteger('id_empleado');
             $table->date('fecha');
             $table->string('tipo_ausencia');
             $table->timestamps();
 
-            $table->foreign('id_empleado')->references('id_empleado')->on('empleados');
+            $table->foreign('id_empleado')->references('id')->on('empleados');
         });
     }
 

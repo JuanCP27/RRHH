@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empleado;
+use App\Models\Horario;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
@@ -14,8 +16,9 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $empleados = Empleado::all();
-        return view('empleados.index', compact('empleados'));
+
+        $empleados = Empleado::with('horarios')->get();
+        return view('empleado.index', compact('empleados'));
     }
 
     /**
@@ -25,7 +28,9 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return view('empleados.create');
+        $horarios = Horario::all();
+
+        return view('empleado.create', compact('horarios'));
     }
 
     /**
@@ -37,7 +42,17 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
         // Validar y guardar los datos enviados por el formulario
-        $empleado = new Empleado();
+
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'puesto' => 'required',
+            'puesto' => 'required',
+            'departamento' => 'required',
+        ]);
+        $input = $request->all();
+
+        $empleado = new Empleado($input);
         // Asignar valores a las propiedades del modelo
         $empleado->nombre = $request->input('nombre');
         $empleado->apellido = $request->input('apellido');
@@ -46,7 +61,7 @@ class EmpleadoController extends Controller
         // ...
         $empleado->save();
 
-        return redirect()->route('empleados.index')->with('success', 'Empleado creado exitosamente.');
+        return redirect()->route('empleado.index')->with('success', 'Empleado creado exitosamente.');
     }
 
     /**
@@ -58,7 +73,7 @@ class EmpleadoController extends Controller
 
     public function show(Empleado $empleado)
     {
-        return view('empleados.show', compact('empleado'));
+        return view('empleado.show', compact('empleado'));
     }
 
 
@@ -71,7 +86,8 @@ class EmpleadoController extends Controller
 
     public function edit(Empleado $empleado)
     {
-        return view('empleados.edit', compact('empleado'));
+        $horarios = Horario::all();
+        return view('empleado.edit', compact('empleado','horarios'));
     }
 
     /**
@@ -92,7 +108,7 @@ class EmpleadoController extends Controller
         // ...
         $empleado->save();
 
-        return redirect()->route('empleados.index')->with('success', 'Empleado actualizado exitosamente.');
+        return redirect()->route('empleado.index')->with('success', 'Empleado actualizado exitosamente.');
     }
 
     /**
@@ -105,6 +121,6 @@ class EmpleadoController extends Controller
     {
         $empleado->delete();
 
-        return redirect()->route('empleados.index')->with('success', 'Empleado eliminado exitosamente.');
+        return redirect()->route('empleado.index')->with('success', 'Empleado eliminado exitosamente.');
     }
 }

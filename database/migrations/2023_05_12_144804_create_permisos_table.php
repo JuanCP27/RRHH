@@ -22,7 +22,7 @@ class CreatePermisosTable extends Migration
             $table->boolean('aprobado')->default(false);
             $table->timestamps();
 
-            $table->foreign('id_empleado')->references('id_empleado')->on('empleados');
+            $table->foreign('id_empleado')->references('id')->on('empleados');
         });
     }
 

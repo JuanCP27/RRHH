@@ -6,12 +6,14 @@
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">{{ $empleado->nombre }}</h5>
+                <h5 class="card-title">{{ $empleado->nombre }}</h5><h5 class="card-title">{{ $empleado->apellido }}</h5>
+                <p class="card-text">{{ $empleado->puesto }}</p>
+                <p class="card-text">{{ $empleado->departamento }}</p>
                 <p class="card-text">ID: {{ $empleado->id }}</p>
                 <p class="card-text">Email: {{ $empleado->email }}</p>
                 <!-- Agrega aquí más campos de detalles según tus necesidades -->
 
-                <a href="{{ route('empleados.edit', $empleado->id) }}" class="btn btn-primary">Editar</a>
+                <a href="{{ route('empleado.edit', $empleado->id) }}" class="btn btn-primary">Editar</a>
             </div>
         </div>
     </div>

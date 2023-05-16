@@ -21,8 +21,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->unsignedBigInteger('id_empleado')->nullable();
-            $table->foreign('id_empleado')->references('id_empleado')->on('empleados');
         });
     }
 
