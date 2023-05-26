@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class RegistroAsistenciaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +19,10 @@ class RegistroAsistenciaController extends Controller
     public function index()
     {
         //
+        
+        $registros = RegistroAsistencia::with('empleado')->get();
+        return view('registroasistencia.index', compact('registros'));
+
     }
 
     /**

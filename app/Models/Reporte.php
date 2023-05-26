@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Reporte extends Model
 {
     use  HasFactory;
-    protected $primaryKey = 'id_reporte';
+    protected $primaryKey = 'id';
 
     public function empleado()
     {
-        return $this->belongsTo(Empleado::class, 'id_empleado');
+        return $this->belongsTo(Empleado::class, 'empleado_id');
     }
 
     // Resto de relaciones y métodos relevantes

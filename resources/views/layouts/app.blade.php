@@ -57,6 +57,9 @@
                         @endif
                         @else
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('registroasistencia.index') }}">{{ __('Registros') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('horarios.index') }}">{{ __('Horarios') }}</a>
                         </li>
                         <li class="nav-item">

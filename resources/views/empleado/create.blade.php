@@ -25,14 +25,12 @@
             <label for="apellido">Area:</label>
             <input type="text" name="departamento" class="form-control" required>
         </div>
-
         <div class="form-group">
-        <label for="apellido">Horario:</label>
-
-            <select class="form-control" id="" name="id_horario" required>
-                <option value="" selected>- Horario -</option>
-                @foreach ($horarios as $hora)
-                <option value="{{ $hora->id }}"> {{ $hora->nombre }} {{ $hora->hora_entrada }} to {{ $hora->hora_salida }}
+            <label for="horarios">Horarios:</label>
+            <select name="horarios[]" id="horarios" multiple required>
+                @foreach($horarios as $horario)
+                <option value="{{ $horario->id }}">
+                    {{ $horario->hora_entrada }} {{ $horario->hora_salida }}
                 </option>
                 @endforeach
             </select>

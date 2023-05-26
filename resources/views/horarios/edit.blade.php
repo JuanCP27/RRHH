@@ -9,6 +9,11 @@
         @method('PUT')
 
         <!-- Campos del formulario -->
+        
+        <div class="form-group">
+            <label for="dia_semana">Día de la semana</label>
+            <input type="hidden" name="dia_semana" class="form-control" value="{{ $horario->dia_semana }}" required>
+        </div>
         <div class="form-group">
             <label for="dia_semana">Día de la semana</label>
             <input type="text" name="dia_semana" class="form-control" value="{{ $horario->dia_semana }}" required>

@@ -22,9 +22,9 @@ class CreateHorariosTable extends Migration
         });
         Schema::create('empleado_horario', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('empleado_id')->unsigned();
-            $table->integer('horario_id')->unsigned();
-          
+            $table->unsignedBigInteger('empleado_id');
+            $table->unsignedBigInteger('horario_id');
+
 
             $table->foreign('empleado_id')->references('id')->on('empleados')->onDelete('cascade');
             $table->foreign('horario_id')->references('id')->on('horarios')->onDelete('cascade');
@@ -38,14 +38,13 @@ class CreateHorariosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('horarios');
-        Schema::table('horario_personal', function (Blueprint $table) {
-            
-            $table->dropForeign(['id_horario']);
-            $table->dropForeign(['id_empleado']);
-           });
-     
-        Schema::dropIfExists('horario_personal');
+
+        Schema::table('empleado_horario', function (Blueprint $table) {
+            $table->dropForeign(['empleado_id']);
+            $table->dropForeign(['horario_id']);
+        });
+
+        Schema::dropIfExists('empleado_horario');
         Schema::dropIfExists('horarios');
     }
 }

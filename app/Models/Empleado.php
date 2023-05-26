@@ -20,24 +20,26 @@ class Empleado extends Model
 
     public function horarios()
     {
-        return $this->belongsToMany(Horario::class, 'empleado_horario');
+        return $this->belongsToMany(Horario::class,'empleado_horario','empleado_id','horario_id');
+        //,'empleado_horario','empleado_id','horario_id'
     }
+    
 
     // Relación con Registro_Asistencia
     public function registrosAsistencia()
     {
-        return $this->hasMany(RegistroAsistencia::class, 'id_emplado');
+        return $this->belongsTo(RegistroAsistencia::class,'empleado_id');
     }
 
     // Relación con Permisos
     public function permisos()
     {
-        return $this->hasMany(Permiso::class, 'id_empleado');
+        return $this->hasMany(Permiso::class, 'empleado_id');
     }
 
     // Relación con Vacaciones
     public function vacaciones()
     {
-        return $this->hasMany(Vacacion::class, 'id_empleado');
+        return $this->hasMany(Vacacion::class, 'empleado_id');
     }
 }

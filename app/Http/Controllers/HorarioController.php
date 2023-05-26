@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class HorarioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -84,10 +88,6 @@ class HorarioController extends Controller
 
     public function edit(Horario $horario)
     {
-        if (!$horario) {
-            // Manejo del caso si no se encuentra el horario con el ID especificado
-            return redirect()->route('horarios.index')->with('error', 'No se encontró el horario');
-        }
         return view('horarios.edit', compact('horario'));
     }
 

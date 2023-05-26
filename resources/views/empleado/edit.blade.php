@@ -4,9 +4,10 @@
 <div class="container">
     <h1>Editar Empleado</h1>
 
-    <form action="{{ route('empleado.update', $empleado->id) }}" method="POST">
+    <form method="POST" action="{{ route('empleado.update', $empleado->id) }}" >
         @csrf
         @method('PUT')
+        
 
         <div class="form-group">
             <label for="nombre">Nombre:</label>
@@ -25,23 +26,16 @@
             <label for="apellido">Area:</label>
             <input type="text" name="departamento" class="form-control" value="{{ $empleado->departamento }}">
         </div>
-
         <div class="form-group">
-        <label for="apellido">Horario:</label>
-
-            <select class="form-control" id="" name="id" required>
-                
-                <option value="" selected>- Horario -</option>
-                @foreach ($horarios as $hora)
-                <option value="{{ $hora->id }}"> {{ $hora->nombre }} {{ $hora->hora_entrada }} to {{ $hora->hora_salida }}
+            <label for="horarios">Horarios:</label>
+            <select name="horarios[]" id="horarios" multiple required>
+                @foreach($horarios as $horas)
+                <option value="{{ $horas->id }}" {{ $empleado->horarios->contains($horas->id) ? 'selected' : '' }}>
+                    {{ $horas->hora_entrada }}-{{ $horas->hora_salida }}
                 </option>
                 @endforeach
-
             </select>
-            
         </div>
-
-
 
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>

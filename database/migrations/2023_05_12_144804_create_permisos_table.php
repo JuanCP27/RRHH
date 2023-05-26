@@ -14,15 +14,15 @@ class CreatePermisosTable extends Migration
     public function up()
     {
         Schema::create('permisos', function (Blueprint $table) {
-            $table->increments('id_permiso');
-            $table->unsignedInteger('id_empleado');
+            $table->increments('id');
+            $table->unsignedInteger('empleado_id');
             $table->string('tipo_permiso');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->boolean('aprobado')->default(false);
             $table->timestamps();
 
-            $table->foreign('id_empleado')->references('id')->on('empleados');
+            $table->foreign('empleado_id')->references('id')->on('empleados');
         });
     }
 
